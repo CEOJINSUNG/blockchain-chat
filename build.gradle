@@ -34,18 +34,11 @@ subprojects {
 	}
 
 	dependencies {
-		implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-		implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 		implementation 'org.springframework.boot:spring-boot-starter-mail'
 		implementation 'org.springframework.boot:spring-boot-starter-web'
-		implementation 'org.springframework.boot:spring-boot-starter-websocket'
-		implementation 'org.springframework.kafka:spring-kafka'
 		compileOnly 'org.projectlombok:lombok'
-		runtimeOnly 'mysql:mysql-connector-java'
 		annotationProcessor 'org.projectlombok:lombok'
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
-		testImplementation 'org.springframework.kafka:spring-kafka-test'
 	}
 
 	tasks.named('test') {
@@ -56,19 +49,27 @@ subprojects {
 
 project(':core') {
 	dependencies {
-
+		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	}
 }
 
 project(':api') {
 	dependencies {
 		implementation project(':core')
+		implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+		runtimeOnly 'mysql:mysql-connector-java'
 	}
 }
 
 project(':streaming') {
 	dependencies {
-		implementation project(':core')
+		implementation 'org.springframework.boot:spring-boot-configuration-processor'
+		implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+		implementation group: 'redis.clients', name: 'jedis', version: '3.3.0'
+		implementation 'org.springframework.boot:spring-boot-starter-websocket'
+		implementation 'org.springframework.kafka:spring-kafka'
+		implementation group: 'io.github.serg-maximchuk', name: 'binance-api-client', version: '1.0.4'
+		testImplementation 'org.springframework.kafka:spring-kafka-test'
 	}
 }
 

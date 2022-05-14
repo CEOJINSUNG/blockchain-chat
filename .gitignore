@@ -38,3 +38,4 @@ out/
 src/.DS_Store
 src/.DS_Store
 src/.DS_Store
+streaming/src/main/resources/application-API-KEY.yml
