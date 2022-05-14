@@ -34,12 +34,12 @@
     - docker-compose.yml 파일 작성
     
     version: '3.8'
-    
+
     networks:
       kafka-net:
         driver: bridge
-    
-    services: 
+
+    services:
       zookeeper:
         container_name: blockchain-zookeeper
         image: bitnami/zookeeper
@@ -49,21 +49,20 @@
           - '2181:2181'
         environment:
           - ALLOW_ANONYMOUS_LOGIN=yes
-      
+
       kafka:
         container_name: blockchain-kafka
         image: bitnami/kafka
         networks:
           - kafka-net
         ports:
-          - '9093:9093'
+          - '9092:9092'
         environment:
+          - KAFKA_BROKER_ID=1
+          - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+          - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
           - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
           - ALLOW_PLAINTEXT_LISTENER=yes
-          - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
-          - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
-          - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:9093
-          - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
         depends_on:
           - zookeeper
     
