@@ -1,6 +1,4 @@
 # blockchain-chat
- blockchain-chat based on spring boot
-
 
 ## 프로젝트 순서
 
@@ -74,12 +72,19 @@
 
     - 이번 프로젝트에는 거래소 시스템을 적용하는 것으로 UML 기반 Actor는 User 한명이고 매수자와 매도자의 Transaction을 처리하는 것이다. 
     - 따라서, 사용자/가상자산/주문/거래내역 4개의 객체를 생성한다. 
+    - 또한, Blockchain 가격을 가져오기 위해서는 Binance Data가 필수이므로 이에 대한 Binance 객체도 만들어야 한다.
 
-### 3. Websocket + Binance wss + Redis 연동
+### 3. Websocket + Binance 구현
 
-    1) https://docs.binance.org/api-reference/dex-api/ws-connection.html
-    2) Binance wss를 Websocket을 통하여 가져온 코인의 가격 정보를 가져온다.
-    3) 최신 코인 가격을 Redis의 기록한다. 
+    1. wss를 통하여 Spring이 Streaming 을 받아 출력하는 방식
+        1) https://docs.binance.org/api-reference/dex-api/ws-connection.html
+        2) Binance wss를 Websocket을 통하여 가져온 코인의 가격 정보를 가져온다.
+        3) 최신 코인 가격을 Redis의 기록한다. 
+    
+    2. binance-java-api를 이용하는 방식
+        1) https://github.com/binance-exchange/binance-java-api
+        2) implementation group: 'io.github.serg-maximchuk', name: 'binance-api-client', version: '1.0.4'
+        3) Github에 나와 있는 것과 달리 실제 Spring Dependency에는 2) 요소를 집어넣어야 작동이 된다. 
 
 ### 4. kafka 기반 주문/거래 시스템 구현
 
