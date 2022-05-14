@@ -1,8 +1,8 @@
 spring:
-#  redis:
-#    host: localhost
-#    port: 6379
-#    database: 0 # 데이터베이스 인덱스
+  redis:
+    host: localhost
+    port: 6379
+    database: 0 # 데이터베이스 인덱스
   kafka:
     consumer:
       bootstrap-servers: localhost:9092 # 접속하기 위한 서버
@@ -14,5 +14,7 @@ spring:
       bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer # 직렬화
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  profiles:
+    include: API-KEY
 server:
   port: 8081
