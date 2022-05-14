@@ -85,6 +85,8 @@
        1) https://github.com/binance-exchange/binance-java-api
        2) implementation group: 'io.github.serg-maximchuk', name: 'binance-api-client', version: '1.0.4'
        3) Github에 나와 있는 것과 달리 실제 Spring Dependency에는 2) 요소를 집어넣어야 작동이 된다. 
+    
+    결론은 2번을 이용하자
 
 ### 4. kafka 기반 주문/거래 시스템 구현
 
