@@ -1,1 +1,5 @@
 rootProject.name = 'blockchain-chat'
+include 'core'
+include 'api'
+include 'streaming'
+
