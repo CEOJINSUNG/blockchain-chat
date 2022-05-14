@@ -87,6 +87,9 @@
        3) Github에 나와 있는 것과 달리 실제 Spring Dependency에는 2) 요소를 집어넣어야 작동이 된다. 
     
     결론은 2번을 이용하자
+    
+<img width="420" alt="Websocket-Binance" src="https://user-images.githubusercontent.com/55318896/168439104-4e6b2d05-83da-467b-96dc-e65d5d03c44a.png">
+
 
 ### 4. kafka 기반 주문/거래 시스템 구현
 
