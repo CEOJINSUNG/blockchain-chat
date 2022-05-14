@@ -4,6 +4,7 @@ import com.binance.api.client.BinanceApiClientFactory;
 import com.binance.api.client.BinanceApiWebSocketClient;
 import com.binance.api.client.domain.market.CandlestickInterval;
 import guri.kafka.blockchainchat.config.ApiKey;
+import guri.kafka.blockchainchat.kafka.ProducerService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -14,16 +15,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class BinanceService {
     private ApiKey key;
-    private BinanceRepository binanceRepository;
     private String apiKey;
     private String secretKey;
+    private BinanceRepository binanceRepository;
+    private ProducerService producerService;
 
     @Autowired
-    public BinanceService(ApiKey key, BinanceRepository binanceRepository) {
+    public BinanceService(ApiKey key, BinanceRepository binanceRepository, ProducerService producerService) {
         this.key = key;
-        this.binanceRepository = binanceRepository;
         this.apiKey = key.getApikey();
         this.secretKey = key.getSecretkey();
+        this.binanceRepository = binanceRepository;
+        this.producerService = producerService;
     }
 
     private String coinPairName = "btcusdt";
@@ -52,9 +55,12 @@ public class BinanceService {
                binance.setTakerBuyBaseAssetVolume(response.getTakerBuyBaseAssetVolume());
                binance.setTakerBuyQuoteAssetVolume(response.getTakerBuyQuoteAssetVolume());
                binance.setIsBarFinal(response.getBarFinal());
-               System.out.println("Open Time" + response.getSymbol());
+               System.out.println("Final Bar: " + response.getSymbol() + " " + response.getHigh() + " " + response.getLow());
+
+               binanceRepository.save(binance);
+               producerService.sendMessage(response.getHigh());
            } else {
-               System.out.println("Open Time" + response.getHigh());
+               System.out.println("Current Bar: " + response.getSymbol() + " " + response.getHigh() + " " + response.getLow());
            }
         });
     }
@@ -63,6 +69,5 @@ public class BinanceService {
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         this.subscribeBinanceData();
     }
-
 
 }
