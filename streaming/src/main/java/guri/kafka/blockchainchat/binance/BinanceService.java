@@ -57,7 +57,13 @@ public class BinanceService {
                binance.setIsBarFinal(response.getBarFinal());
                System.out.println("Final Bar: " + response.getSymbol() + " " + response.getHigh() + " " + response.getLow());
 
+               // 1. Redis 에 저장을 함
                binanceRepository.save(binance);
+
+               // 2. kafka 에 Binance 객체를 전달함
+               producerService.sendBinanceData(binance);
+
+               // + 테스트용 카프카
                producerService.sendMessage(response.getHigh());
            } else {
                System.out.println("Current Bar: " + response.getSymbol() + " " + response.getHigh() + " " + response.getLow());
