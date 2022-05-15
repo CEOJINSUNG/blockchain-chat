@@ -7,8 +7,9 @@ import guri.kafka.blockchainchat.config.ApiKey;
 import guri.kafka.blockchainchat.kafka.ProducerService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Data
@@ -19,19 +20,21 @@ public class BinanceService {
     private String secretKey;
     private BinanceRepository binanceRepository;
     private ProducerService producerService;
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
-    public BinanceService(ApiKey key, BinanceRepository binanceRepository, ProducerService producerService) {
+    public BinanceService(ApiKey key, BinanceRepository binanceRepository, ProducerService producerService, ApplicationEventPublisher applicationEventPublisher) {
         this.key = key;
         this.apiKey = key.getApikey();
         this.secretKey = key.getSecretkey();
         this.binanceRepository = binanceRepository;
         this.producerService = producerService;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
-    private String coinPairName = "btcusdt";
-
-    public void subscribeBinanceData() {
+    @Async
+    @EventListener
+    public void subscribeBinanceData(String coinPairName) {
         BinanceApiWebSocketClient binanceApiWebSocketClient = BinanceApiClientFactory.newInstance(apiKey, secretKey).newWebSocketClient();
         binanceApiWebSocketClient.onCandlestickEvent(coinPairName, CandlestickInterval.ONE_MINUTE, response -> {
            if (response.getBarFinal()) {
@@ -71,9 +74,8 @@ public class BinanceService {
         });
     }
 
-    @EventListener
-    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        this.subscribeBinanceData();
+    public void askCoinData(String coinPairName) {
+        applicationEventPublisher.publishEvent(coinPairName);
     }
 
 }

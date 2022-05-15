@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class BinanceController {
 
     private final KafkaTemplate<String, Binance> kafkaTemplate;
+    private final BinanceService binanceService;
 
     // 여기서 기업이 코인을 발행을 하고 코인 데이터를 입력을 하면 여기서 데이터가 넘겨짐
     @PostMapping(value = "/publish")
@@ -25,11 +26,12 @@ public class BinanceController {
         }
     }
 
-    // 프론트에서 /coin/binance 를 get 을 하면 코인 데이터를 받게 됨
+    // 프론트에서 /coin/binance/{coinPairName} 을 get 요청하면 종류에 따른 코인 데이터를 받게 됨
     // Websocket 에서 프론트에서 /topic/binance 를 가지고 있으면 여기로 메시지를 전달함
-    @MessageMapping("/binance")
+    @MessageMapping("/binance/{coinPairName}")
     @SendTo("/topic/binance")
-    public Binance broadcastGroupMessage(@Payload Binance binance) {
+    public Binance broadcastGroupMessage(@Payload Binance binance, @PathVariable String coinPairName) {
+        binanceService.askCoinData(coinPairName);
         return binance;
     }
 }
