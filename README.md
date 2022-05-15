@@ -90,10 +90,13 @@
     
 <img width="420" alt="Websocket-Binance" src="https://user-images.githubusercontent.com/55318896/168439104-4e6b2d05-83da-467b-96dc-e65d5d03c44a.png">
 
+### 4. WebSocket API 생성
 
-### 4. kafka 기반 주문/거래 시스템 구현
+    - 여기서는 바이낸스에서 들어온 데이터를 kafka를 통하여 들어온 데이터를 분류
+    - Client 에게 주제 별로 데이터를 보내주는 Websocket API 를 제작
+    - 여기서 @EventListener를 사용하여 코인별 데이터를 가져옴
 
-### 5. Rest API 생성
+### 5. kafka 기반 주문/거래 시스템 구현
 
 ### 6. 카카오 Chat 제작
 
