@@ -100,7 +100,7 @@
 
     - 들어오는 주문 스트림 처리
     
-    <img width="1312" alt="주문 Stream" src="https://user-images.githubusercontent.com/55318896/168530961-3f0d250c-4ce4-41c9-a644-0e8f861abedc.png">
+<img width="1312" alt="주문 Stream" src="https://user-images.githubusercontent.com/55318896/168530961-3f0d250c-4ce4-41c9-a644-0e8f861abedc.png">
 
 
 ### + 모니터링 및 테스트
