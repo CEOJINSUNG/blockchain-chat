@@ -7,14 +7,14 @@ import org.springframework.stereotype.Component;
 @Getter
 @Component
 public class ApiKey {
-    @Value("${api-key}")
+    @Value("${external.api-key}")
     private String apikey;
-    @Value("${secret-key}")
+    @Value("${external.secret-key}")
     private String secretkey;
 
-    private static ApiKey instance = new ApiKey();
+    public static ApiKey instance = new ApiKey();
 
-    private ApiKey() {
+    public ApiKey() {
 
     }
 

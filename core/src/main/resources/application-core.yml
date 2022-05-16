@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mysql?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/user?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
     password: 1234
   jpa:
@@ -11,3 +11,24 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     generate-ddl: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+  cloud:
+    stream:
+      function:
+        definition: orderBuySupplier;orderSellSupplier
+        bindings:
+          orderBuySupplier-out-0:
+            destination: orders.buy
+            producer:
+              configuration:
+                key:
+                  serializer: org.apache.kafka.common.serialization.LongSerializer
+          orderSellSupplier-out-0:
+            destination: orders.sell
+            producer:
+              configuration:
+                key:
+                  serializer: org.apache.kafka.common.serialization.LongSerializer

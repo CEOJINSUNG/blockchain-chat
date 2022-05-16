@@ -6,6 +6,7 @@ import com.binance.api.client.domain.market.CandlestickInterval;
 import guri.kafka.blockchainchat.config.ApiKey;
 import guri.kafka.blockchainchat.kafka.ProducerService;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
