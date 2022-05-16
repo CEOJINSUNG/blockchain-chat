@@ -36,6 +36,9 @@ subprojects {
 	dependencies {
 		implementation 'org.springframework.boot:spring-boot-starter-mail'
 		implementation 'org.springframework.boot:spring-boot-starter-web'
+		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+		implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+		runtimeOnly 'mysql:mysql-connector-java'
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -49,11 +52,9 @@ subprojects {
 
 project(':core') {
 	dependencies {
-		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-		implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 		implementation 'org.springframework.cloud:spring-cloud-starter-stream-kafka:3.2.3'
-		runtimeOnly 'mysql:mysql-connector-java'
 		implementation group: 'org.javassist', name: 'javassist', version: '3.15.0-GA'
+		runtimeOnly 'com.h2database:h2'
 	}
 }
 

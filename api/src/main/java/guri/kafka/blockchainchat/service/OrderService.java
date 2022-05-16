@@ -4,19 +4,17 @@ import guri.kafka.blockchainchat.domain.Order;
 import guri.kafka.blockchainchat.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class OrderService {
 
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
     public Order add(Order order) {
         return orderRepository.save(order);
     }
 
-    @Transactional
     public boolean checkAmount(Long buyOrderId, Long sellOrderId, int amount) {
         Order buyOrder = orderRepository.findById(buyOrderId).orElseThrow();
         Order sellOrder = orderRepository.findById(sellOrderId).orElseThrow();
