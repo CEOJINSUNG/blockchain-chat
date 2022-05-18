@@ -12,9 +12,16 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     generate-ddl: true
   kafka:
-    bootstrap-servers: localhost:9092
+    consumer:
+      bootstrap-servers: localhost:9092 # 접속하기 위한 서버
+      group-id: test-group # consumer 가 속한 그룹
+      auto-offset-reset: earliest # consumer 그룹에서 파티션의 위치를 나타내는 것으로 현재는 FIFO 방식
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer # key-value 를 string 으로 설정함
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer # 역직렬화
     producer:
-      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer # 직렬화
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
   cloud:
     stream:
       function:
@@ -32,3 +39,10 @@ spring:
               configuration:
                 key:
                   serializer: org.apache.kafka.common.serialization.LongSerializer
+logging:
+  level:
+    root: info
+    org:
+      apache:
+        kafka: info
+
