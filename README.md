@@ -146,9 +146,9 @@
           
     - 프로메테우스 + Docker를 위한 prometheus.yml 작성 및 실행
     scrape_configs:
-       - job_name: 'spring_exporter'
+       - job_name: 'kafka-exporter'
          static_configs:
-           - targets: ['host.docker.internal:8082']
+           - targets: ['host.docker.internal:9308']
     
     - Docker 실행 후 http://localhost:9090/ 접속
     docker run -p 9090:9090 -v /Users/kimjinsung/desktop/Github/blockchain-chat/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
