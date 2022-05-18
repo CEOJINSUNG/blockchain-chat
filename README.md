@@ -153,4 +153,43 @@
     - Docker 실행 후 http://localhost:9090/ 접속
     docker run -p 9090:9090 -v /Users/kimjinsung/desktop/Github/blockchain-chat/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
 
+#### 3. kafka-exporter까지 같이 실행하기
 
+    - 기존 docker-compose.yml을 아래와 같이 실행을 해주면 된다.
+
+    version: '3.8'
+
+    networks:
+      kafka-net:
+        driver: bridge
+
+    services:
+      zookeeper:
+        image: 'bitnami/zookeeper:latest'
+        environment:
+          - 'ALLOW_ANONYMOUS_LOGIN=yes'
+        ports:
+          - '2181:2181'
+        networks:
+          - kafka-net
+      kafka:
+        image: 'bitnami/kafka:latest'
+        environment:
+          - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+          - ALLOW_PLAINTEXT_LISTENER=yes
+          - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+          - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+        ports:
+          - "9092:9092"
+        networks:
+          - kafka-net
+        depends_on:
+          - zookeeper
+      kafka-exporter:
+        image: "bitnami/kafka-exporter:latest"
+        ports:
+          - "9308:9308"
+        command:
+          - --kafka.server=kafka:9092
+        networks:
+          - kafka-net
