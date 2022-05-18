@@ -1,5 +1,7 @@
 # blockchain-chat
 
+![blockchain-chat](https://user-images.githubusercontent.com/55318896/169059394-9d094c86-ccaf-4b19-9716-bb59ca5f47a1.png)
+
 ## 프로젝트 순서
 
 ### 1. 프로젝트 세팅
