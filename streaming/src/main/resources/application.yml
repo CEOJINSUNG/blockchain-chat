@@ -8,13 +8,13 @@ spring:
 #      bootstrap-servers: localhost:9092 # 접속하기 위한 서버
 #      group-id: blockchain-chat-group # consumer 가 속한 그룹
 #      auto-offset-reset: earliest # consumer 그룹에서 파티션의 위치를 나타내는 것으로 현재는 FIFO 방식
-#      key-deserializer: org.apache.kafka.common.serialization.LongSerializer # key-value 를 string 으로 설정함
-#      value-deserializer: org.apache.kafka.common.serialization.LongDeserializer # 역직렬화
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer # key-value 를 string 으로 설정함
+#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer # 역직렬화
 #    producer:
 #      bootstrap-servers: localhost:9092
-#      key-serializer: org.apache.kafka.common.serialization.LongSerializer # 직렬화
-#      value-serializer: org.apache.kafka.common.serialization.LongSerializer
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer # 직렬화
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
   profiles:
     include: [core, API-KEY]
 server:
-  port: 8081
+  port: 8082
