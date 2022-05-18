@@ -105,4 +105,52 @@
 
 ### + 모니터링 및 테스트
 
-    - 지금은 로그로 찍으면서 테스트를 진행하고 있지만 나중에 웹에 직접 연결하여 테스트를 해봐야겠다.
+#### 1. 로그 확인하기
+
+    # kafka 토픽에 대한 정보 확인하기
+    kafka-topics.sh --describe --topic test --bootstrap-server localhost:9092
+
+    # kafka consumer 토픽에 대한 정보 확인하기
+    kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test
+
+    # 실행한 kafka에 대한 전체 로그 확인하기
+    docker logs {kafka 이름}
+
+    # applicaion.yml
+    logging:
+      level:
+        root: info
+        org:
+          apache:
+            kafka: info
+
+
+#### 2. 프로메테우스 + 그라파나 연동하기
+
+    - Spring Boot Actuator와 Micrometer-registry-prometheus 추가
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.6.7'
+    implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.8.6'
+    
+    - application.yml 업데이트
+    spring:
+      application:
+        name: blockchain-chat
+    management:
+      endpoints:  
+        web:
+          exposure:
+            include: "prometheus"
+      metrics:
+        tags:
+          application: ${spring.application.name}    # 서비스 단위의 식별자. Prometheus label에 추가됨.
+          
+    - 프로메테우스 + Docker를 위한 prometheus.yml 작성 및 실행
+    scrape_configs:
+       - job_name: 'spring_exporter'
+         static_configs:
+           - targets: ['host.docker.internal:8082']
+    
+    - Docker 실행 후 http://localhost:9090/ 접속
+    docker run -p 9090:9090 -v /Users/kimjinsung/desktop/Github/blockchain-chat/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
+
+
