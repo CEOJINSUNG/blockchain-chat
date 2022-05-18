@@ -153,8 +153,12 @@
     - Docker 실행 후 http://localhost:9090/ 접속
     docker run -p 9090:9090 -v /Users/kimjinsung/desktop/Github/blockchain-chat/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
 
+<img width="1781" alt="프로메테우스" src="https://user-images.githubusercontent.com/55318896/169052137-249f62f8-2868-4818-ae25-9f559d7a36ff.png">
+
+
 #### 3. kafka-exporter까지 같이 실행하기
 
+    - https://github.com/bitnami/bitnami-docker-kafka-exporter
     - 기존 docker-compose.yml을 아래와 같이 실행을 해주면 된다.
 
     version: '3.8'
